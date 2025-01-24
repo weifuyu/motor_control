@@ -1,0 +1,24 @@
+ÿØÿÛ«symbol pid_controller
+  «type: Ø(.DLL)»
+  «description: PID_controller with anti-windup»
+  «shorted pins: false»
+  «rect (-1000,1300) (1600,-1200) 0 0 0 0x4000000 0x4000000 -1 1 -1»
+  «text (0,1400) 1 0 0 0x0 -1 -1 "X1"»
+  «text (50,1150) 1 0 0 0x0 -1 -1 "PID_controller"»
+  «text (60,680) 1 0 0 0x0 -1 -1 "float OutHiLim=<1>"»
+  «text (70,490) 1 0 0 0x0 -1 -1 "float OutLoLim=<0>"»
+  «text (120,320) 1 0 0 0x0 -1 -1 "float IntRateLim=<1>"»
+  «text (-170,130) 1 0 0 0x0 -1 -1 "float Kp=<1>"»
+  «text (-70,-50) 1 0 0 0x0 -1 -1 "float Ts=<1e-5>"»
+  «text (-140,-240) 1 0 0 0x0 -1 -1 "float Ti=<0.1>"»
+  «text (160,-400) 1 0 0 0x0 -1 -1 "bool Ki_enable=<true>"»
+  «text (-110,-570) 1 0 0 0x0 -1 -1 "float Td=<0.1>"»
+  «text (200,-750) 1 0 0 0x0 -1 -1 "bool Kd_enable=<false>"»
+  «text (-30,-940) 1 0 0 0x0 -1 -1 "float Kp_aw=<0>"»
+  «pin (-1000,1000) (100,-100) 1 14 145 0x0 -1 "ref"»
+  «pin (-1000,400) (100,-100) 1 14 17 0x0 -1 "clk"»
+  «pin (-1000,-200) (100,-100) 1 14 145 0x0 -1 "fb"»
+  «pin (-1000,-800) (120,-90) 1 14 145 0x0 -1 "uff"»
+  «pin (1600,1000) (-100,-50) 1 14 146 0x0 -1 "u"»
+  «pin (1600,-200) (-250,-50) 1 14 146 0x0 -1 "_DBG"»
+»
