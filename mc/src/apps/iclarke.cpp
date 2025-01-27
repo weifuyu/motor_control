@@ -68,19 +68,21 @@ extern "C" __declspec(dllexport) void iclarke(struct sICLARKE **opaque, double t
    struct sICLARKE *inst = *opaque;
 
 // Implement module evaluation code here:
-   if(clk && !inst->clk_n1)
-   {
-      inst->T_inst.AB0.alpha = A;
-      inst->T_inst.AB0.beta = B;
-      inst->T_inst.AB0.zero_AB = 0;
+   if (inst != NULL) {
+       if (clk && !inst->clk_n1)
+       {
+           inst->T_inst.AB0.alpha = A;
+           inst->T_inst.AB0.beta = B;
+           inst->T_inst.AB0.zero_AB = 0;
 
-      AB02abc(&inst->T_inst);
-      
-      u = inst->T_inst.abc.a;
-      v = inst->T_inst.abc.b;
-      W = inst->T_inst.abc.c;
+           AB02abc(&inst->T_inst);
+
+           u = inst->T_inst.abc.a;
+           v = inst->T_inst.abc.b;
+           W = inst->T_inst.abc.c;
+       }
+       inst->clk_n1 = clk;
    }
-   inst->clk_n1 = clk;
 }
 
 extern "C" __declspec(dllexport) void Destroy(struct sICLARKE *inst)

@@ -79,7 +79,7 @@ extern "C" __declspec(dllexport) void pid_controller(struct sPID_CONTROLLER **op
    bool    Kd_enable  = data[12].b; // input parameter
    double  Kp_aw      = data[13].d; // input parameter
    double &u          = data[14].d; // output
-   double &_DBG     = data[15].d; // debug
+   double &_DBG       = data[15].d; // debug
 
    if(!*opaque)
    {
