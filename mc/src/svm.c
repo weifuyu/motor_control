@@ -20,12 +20,12 @@ static void calc_tabc(double tabc[3], double UAB[2])
 /*!
 *
 * @brief		identify 6 sectors of SVM modulation
-* 				  0▲ to  60▲ Sector 0
-*				 60▲ to 120▲ Sector 1
-*				120▲ to 180▲ Sector 2
-*				180▲ to 240▲ Sector 3
-*				240▲ to 300▲ Sector 4
-*				300▲ to 360▲ Sector 5
+* 				  0째 to  60째 Sector 0
+*				 60째 to 120째 Sector 1
+*				120째 to 180째 Sector 2
+*				180째 to 240째 Sector 3
+*				240째 to 300째 Sector 4
+*				300째 to 360째 Sector 5
 */
 static int determine_sector_6N(double tabc[3])
 {
@@ -68,18 +68,18 @@ static int determine_sector_6N(double tabc[3])
 /*!
 * 
 * @brief		identify 12 sectors of SVM modulation
-*                   0▲ to  30▲ Sector 0
-*				   30▲ to  60▲ Sector 1
-*				   60▲ to	90▲ Sector 2
-*                  90▲ to 120▲ Sector 3
-*				  120▲ to 150▲ Sector 4
-*				  150▲ to 180▲ Sector 5
-*                 180▲ to 210▲ Sector 6
-*                 210▲ to 240▲ Sector 7
-*                 240▲ to 270▲ Sector 8
-*	              270▲ to 300▲ Sector 9
-*                 300▲ to 330▲ Sector 10
-*                 330▲ to 360▲ Sector 11
+*                   0째 to  30째 Sector 0
+*				   30째 to  60째 Sector 1
+*				   60째 to	90째 Sector 2
+*                  90째 to 120째 Sector 3
+*				  120째 to 150째 Sector 4
+*				  150째 to 180째 Sector 5
+*                 180째 to 210째 Sector 6
+*                 210째 to 240째 Sector 7
+*                 240째 to 270째 Sector 8
+*	              270째 to 300째 Sector 9
+*                 300째 to 330째 Sector 10
+*                 330째 to 360째 Sector 11
 */
 static int determine_sector_12N(double tabc[3])
 {
@@ -148,6 +148,13 @@ static int determine_sector_12N(double tabc[3])
 	return sector;
 }
 
+/*!
+*
+* @brief		calculate duty cycle for SVM modulation
+* @param[in]	tabc: array of Ualpha, Ubeta, U0
+* @param[in]	mode: SVM mode
+* @param[out]	svm->m: array of duty cycle for phase A, B, C
+*/
 static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 {
 	double ta = tabc[0];
@@ -156,37 +163,29 @@ static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 
 	double d1 = 0, d2 = 0;
 
-	double ma, mb, mc;
-
 	switch (svm->sector)
 	{
-	case 0: // V0(000) <=> V1(100) <=> V2(110) <=> V7(111)
-	case 1:
+	case 0: case 1: // V0(000) <=> V1(100) <=> V2(110) <=> V7(111)
 		d1 = tc; // V1(100)
 		d2 = ta; // V2(110)
 		break;
-	case 2: // V0(000) <=> V3(010) <=> V2(110) <=> V7(111)
-    case 3:
+	case 2: case 3: // V0(000) <=> V3(010) <=> V2(110) <=> V7(111)
 		d1 = -tc; // V3(010)
 		d2 = -tb; // V2(110)
 		break;
-	case 4: // V0(000) <=> V3(010) <=> V4(011) <=> V7(111)
-    case 5:
+	case 4: case 5: // V0(000) <=> V3(010) <=> V4(011) <=> V7(111)
 		d1 = ta; // V3(010)
 		d2 = tb; //  V4(011)
 		break;
-	case 6: // V0(000) <=> V5(001) <=> V4(011) <=> V7(111)
-    case 7:
+	case 6: case 7: // V0(000) <=> V5(001) <=> V4(011) <=> V7(111)
 		d1 = -ta; // V5(001)
 		d2 = -tc; // V4(011)
 			break;
-	case 8: // V0(000) <=> V5(001) <=> V6(101) <=> V7(111)
-    case 9:
+	case 8: case 9: // V0(000) <=> V5(001) <=> V6(101) <=> V7(111)
 		d1 = tb; // V5(001)
 		d2 = tc; // V6(101)
 		break;
-	case 10: // V0(000) <=> V1(100) <=> V6(101) <=> V7(111)
-    case 11:
+	case 10: case 11: // V0(000) <=> V1(100) <=> V6(101) <=> V7(111)
 		d1 = -tb; // V1(100)
 		d2 = -ta; // V6(101)
 		break;
@@ -219,40 +218,35 @@ static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 		}
 	}
 
+	double ma, mb, mc;
 	switch (svm->sector)
 	{
-	case 0: // V0(000) <=> V1(100) <=> V2(110) <=> V7(111)
-    case 1:
+	case 0: case 1: // V0(000) <=> V1(100) <=> V2(110) <=> V7(111)
 		mc = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
 		mb = mc + d2;
 		ma = mb + d1;
 		break;
-	case 2: // V0(000) <=> V3(010) <=> V2(110) <=> V7(111)
-    case 3:
+	case 2: case 3: // V0(000) <=> V3(010) <=> V2(110) <=> V7(111)
 		mc = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
 		ma = mc + d2;
 		mb = ma + d1;
 		break;
-	case 4: // V0(000) <=> V3(010) <=> V4(011) <=> V7(111)
-    case 5:
+	case 4: case 5: // V0(000) <=> V3(010) <=> V4(011) <=> V7(111)
 		ma = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
 		mc = ma + d2;
 		mb = mc + d1;
 		break;
-	case 6: // V0(000) <=> V5(001) <=> V4(011) <=> V7(111)
-    case 7:
+	case 6: case 7: // V0(000) <=> V5(001) <=> V4(011) <=> V7(111)
 		ma = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
 		mb = ma + d2;
 		mc = mb + d1;
 		break;
-	case 8: // V0(000) <=> V5(001) <=> V6(101) <=> V7(111)
-    case 9:
+	case 8: case 9: // V0(000) <=> V5(001) <=> V6(101) <=> V7(111)
 		mb = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
 		ma = mb + d2;
 		mc = ma + d1;
 		break;
-	case 10: // V0(000) <=> V1(100) <=> V6(101) <=> V7(111)
-    case 11:
+	case 10: case 11: // V0(000) <=> V1(100) <=> V6(101) <=> V7(111)
 		mb = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
 		mc = mb + d2;
 		ma = mc + d1;
@@ -264,11 +258,48 @@ static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 		break;
 	}
 
+	if (ma < 0)
+	{
+		ma = 0;
+	}
+	if (mb < 0)
+	{
+		mb = 0;
+	}
+	if (mc < 0)
+	{
+		mc = 0;
+	}
+
+	if (ma > 1)
+	{
+		ma = 1;
+	}
+	if (mb > 1)
+	{
+		mb = 1;
+	}
+	if (mc > 1)
+	{
+		mc = 1;
+	}
+
 	svm->m[0] = ma;
 	svm->m[1] = mb;
 	svm->m[2] = mc;
 }
 
+/*!
+*
+* @brief		SVM modulation
+* @param[in]	svm: SVM_t structure
+* @param[in]	Ualpha: alpha
+* @param[in]	Ubeta: beta
+* @param[in]	mode: SVM mode
+* @param[out]	svm->UAB: array of alpha, beta
+* @param[out]	svm->sector: sector
+* @param[out]	svm->m: array of duty cycle for phase A, B, C
+*/
 void modulator(SVM_t * svm, const double Ualpha, const double Ubeta, SVM_mode_t mode)
 {
 	svm->UAB[0] = Ualpha;
