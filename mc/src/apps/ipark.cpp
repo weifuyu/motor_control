@@ -53,12 +53,12 @@ struct sIPARK
 
 extern "C" __declspec(dllexport) void ipark(struct sIPARK **opaque, double t, union uData *data)
 {
-   double  d       = data[0].d; // input
-   double  q       = data[1].d; // input
+   float   d       = data[0].f; // input
+   float   q       = data[1].f; // input
    bool    clk     = data[2].b; // input
-   double  theta_e = data[3].d; // input
-   double &A       = data[4].d; // output
-   double &B       = data[5].d; // output
+   float   theta_e = data[3].f; // input
+   float  &A       = data[4].f; // output
+   float  &B       = data[5].f; // output
 
    if(!*opaque)
    {

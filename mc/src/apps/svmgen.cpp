@@ -64,13 +64,13 @@ struct sSVMGEN
 
 extern "C" __declspec(dllexport) void svmgen(struct sSVMGEN **opaque, double t, union uData *data)
 {
-   double  UA   = data[0].d; // input
-   double  UB   = data[1].d; // input
+   float   UA   = data[0].f; // input
+   float   UB   = data[1].f; // input
    bool    clk  = data[2].b; // input
    int     mode = data[3].i; // input parameter
-   double &ma   = data[4].d; // output
-   double &mb   = data[5].d; // output
-   double &mc   = data[6].d; // output
+   float  &ma   = data[4].f; // output
+   float  &mb   = data[5].f; // output
+   float  &mc   = data[6].f; // output
    int    &dbg  = data[7].i; // output
 
 

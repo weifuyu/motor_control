@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include "commontypes.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -13,12 +14,12 @@ extern "C" {
 	
 	typedef struct
 	{
-		double		UAB[2];
-		int			sector;
-		double		m[3];
+		float32_t		UAB[2];
+		int16_t			sector;
+		float32_t		m[3];
 	} SVM_t;
 
-	void modulator(SVM_t* svm, const double Ualpha, const double Ubeta, SVM_mode_t mode);
+	void modulator(SVM_t* svm, const float32_t Ualpha, const float32_t Ubeta, SVM_mode_t mode);
 
 #ifdef __cplusplus
 }

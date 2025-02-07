@@ -12,7 +12,7 @@
  #include "transforms.h"
 
     /** \copydoc abc2AB0 */
-void abc2AB0(Transform_Obj_t *T_inst, int numSensors)
+void abc2AB0(Transform_Obj_t *T_inst, int16_t numSensors)
 {
     if (numSensors == 2)
     {// assume phase a&b sensing, a+b+c = 0
@@ -32,7 +32,7 @@ void abc2AB0(Transform_Obj_t *T_inst, int numSensors)
 } //<- end of abc2AB0
 
     /** \copydoc AB02dq0 */
-void AB02dq0(Transform_Obj_t *T_inst, double theta_e)
+void AB02dq0(Transform_Obj_t *T_inst, float32_t theta_e)
 {
     T_inst->dq0.d = T_inst->AB0.alpha * cos(theta_e) + T_inst->AB0.beta * sin(theta_e);
     T_inst->dq0.q = - T_inst->AB0.alpha * sin(theta_e) + T_inst->AB0.beta * cos(theta_e);
@@ -40,7 +40,7 @@ void AB02dq0(Transform_Obj_t *T_inst, double theta_e)
 } //<- end of AB02dq0
 
     /** \copydoc dq02AB0 */
-void dq02AB0(Transform_Obj_t *T_inst, double theta_e)
+void dq02AB0(Transform_Obj_t *T_inst, float32_t theta_e)
 {
     T_inst->AB0.alpha = T_inst->dq0.d * cos(theta_e) - T_inst->dq0.q * sin(theta_e);
     T_inst->AB0.beta = T_inst->dq0.d * sin(theta_e) + T_inst->dq0.q * cos(theta_e);

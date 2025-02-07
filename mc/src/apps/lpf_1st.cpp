@@ -50,12 +50,12 @@ struct sLPF_1ST
 
 extern "C" __declspec(dllexport) void lpf_1st(struct sLPF_1ST **opaque, double t, union uData *data)
 {
-   double  u   = data[0].d; // input
+   float   u   = data[0].f; // input
    bool    clk = data[1].b; // input
-   double  a0  = data[2].d; // input parameter
-   double  a1  = data[3].d; // input parameter
-   double  b1  = data[4].d; // input parameter
-   double &y   = data[5].d; // output
+   float   a0  = data[2].f; // input parameter
+   float   a1  = data[3].f; // input parameter
+   float   b1  = data[4].f; // input parameter
+   float  &y   = data[5].f; // output
 
    if(!*opaque)
    {

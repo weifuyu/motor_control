@@ -50,11 +50,11 @@ struct sCLARKE
 
 extern "C" __declspec(dllexport) void clarke(struct sCLARKE **opaque, double t, union uData *data)
 {
-   double  u   = data[0].d; // input
-   double  v   = data[1].d; // input
-   double  clk = data[2].d; // input
-   double &A   = data[3].d; // output
-   double &B   = data[4].d; // output
+   float   u   = data[0].f; // input
+   float   v   = data[1].f; // input
+   bool    clk = data[2].b; // input
+   float  &A   = data[3].f; // output
+   float  &B   = data[4].f; // output
 
    if(!*opaque)
    {

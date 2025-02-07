@@ -63,12 +63,12 @@ struct sPARK
 
 extern "C" __declspec(dllexport) void park(struct sPARK **opaque, double t, union uData *data)
 {
-   double  A       = data[0].d; // input
-   double  B       = data[1].d; // input
+   float   A       = data[0].f; // input
+   float   B       = data[1].f; // input
    bool    clk     = data[2].b; // input
-   double  theta_e = data[3].d; // input
-   double &d       = data[4].d; // output
-   double &q       = data[5].d; // output
+   float   theta_e = data[3].f; // input
+   float  &d       = data[4].f; // output
+   float  &q       = data[5].f; // output
 
    if(!*opaque)
    {

@@ -64,22 +64,22 @@ struct sPID_CONTROLLER
 
 extern "C" __declspec(dllexport) void pid_controller(struct sPID_CONTROLLER **opaque, double t, union uData *data)
 {
-   double  ref        = data[ 0].d; // input
+   float   ref        = data[ 0].f; // input
    bool    clk        = data[ 1].b; // input
-   double  fb         = data[ 2].d; // input
-   double  uff        = data[ 3].d; // input
-   double  OutHiLim   = data[ 4].d; // input parameter
-   double  OutLoLim   = data[ 5].d; // input parameter
-   double  IntRateLim = data[ 6].d; // input parameter
-   double  Kp         = data[ 7].d; // input parameter
-   double  Ts         = data[ 8].d; // input parameter
-   double  Ti         = data[ 9].d; // input parameter
+   float   fb         = data[ 2].f; // input
+   float   uff        = data[ 3].f; // input
+   float   OutHiLim   = data[ 4].f; // input parameter
+   float   OutLoLim   = data[ 5].f; // input parameter
+   float   IntRateLim = data[ 6].f; // input parameter
+   float   Kp         = data[ 7].f; // input parameter
+   float   Ts         = data[ 8].f; // input parameter
+   float   Ti         = data[ 9].f; // input parameter
    bool    Ki_enable  = data[10].b; // input parameter
-   double  Td         = data[11].d; // input parameter
+   float   Td         = data[11].f; // input parameter
    bool    Kd_enable  = data[12].b; // input parameter
-   double  Kp_aw      = data[13].d; // input parameter
-   double &u          = data[14].d; // output
-   double &_DBG       = data[15].d; // debug
+   float   Kp_aw      = data[13].f; // input parameter
+   float  &u          = data[14].f; // output
+   float  &_DBG       = data[15].f; // debug
 
    if(!*opaque)
    {

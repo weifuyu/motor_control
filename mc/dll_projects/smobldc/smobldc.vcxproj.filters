@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\ctrl_common.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\pid.h">
+    <ClInclude Include="..\..\include\smo.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\commontypes.h">
@@ -26,10 +23,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\pid.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\apps\pid_controller.cpp">
+    <ClCompile Include="..\..\src\smo.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

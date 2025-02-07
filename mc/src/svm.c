@@ -2,19 +2,19 @@
 #include "svm.h"
 #include "ctrl_common.h"
 
-static void calc_tabc(double tabc[3], double UAB[2]);
-static int determine_sector_6N(double tabc[3]); 
-static int determine_sector_12N(double tabc[3]); 
-static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode);
+static void calc_tabc(float32_t tabc[3], float32_t UAB[2]);
+static int16_t determine_sector_6N(float32_t tabc[3]); 
+static int16_t determine_sector_12N(float32_t tabc[3]); 
+static void calc_svm_duty(SVM_t* svm, float32_t tabc[3], SVM_mode_t mode);
 
-static void calc_tabc(double tabc[3], double UAB[2]) 
+static void calc_tabc(float32_t tabc[3], float32_t UAB[2]) 
 {
-	double Ualpha = UAB[0];
-	double Ubeta = UAB[1];
+	float32_t Ualpha = UAB[0];
+	float32_t Ubeta = UAB[1];
 
 	tabc[0] = Ubeta;
-	tabc[1] = (-SQRT3 * Ualpha - Ubeta) / 2.0;
-	tabc[2] = (SQRT3 * Ualpha - Ubeta) / 2.0;
+	tabc[1] = (-SQRT3 * Ualpha - Ubeta) / 2.0f;
+	tabc[2] = (SQRT3 * Ualpha - Ubeta) / 2.0f;
 }
 
 /*!
@@ -27,13 +27,13 @@ static void calc_tabc(double tabc[3], double UAB[2])
 *				240° to 300° Sector 4
 *				300° to 360° Sector 5
 */
-static int determine_sector_6N(double tabc[3])
+static int16_t determine_sector_6N(float32_t tabc[3])
 {
-	double ta = tabc[0];
-	double tb = tabc[1];
-	double tc = tabc[2];
+	float32_t ta = tabc[0];
+	float32_t tb = tabc[1];
+	float32_t tc = tabc[2];
 
-	int sector;
+	int16_t sector;
 
 	if (ta > 0) {
 		if (tc > 0) {
@@ -81,12 +81,12 @@ static int determine_sector_6N(double tabc[3])
 *                 300° to 330° Sector 10
 *                 330° to 360° Sector 11
 */
-static int determine_sector_12N(double tabc[3])
+static int16_t determine_sector_12N(float32_t tabc[3])
 {
-    int sector;
-    double ta = tabc[0];
-    double tb = tabc[1];
-    double tc = tabc[2];
+    int16_t sector;
+    float32_t ta = tabc[0];
+    float32_t tb = tabc[1];
+    float32_t tc = tabc[2];
 
 	if (ta > 0) {
 		if (tc > 0) {
@@ -155,13 +155,13 @@ static int determine_sector_12N(double tabc[3])
 * @param[in]	mode: SVM mode
 * @param[out]	svm->m: array of duty cycle for phase A, B, C
 */
-static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
+static void calc_svm_duty(SVM_t* svm, float32_t tabc[3], SVM_mode_t mode)
 {
-	double ta = tabc[0];
-	double tb = tabc[1];
-	double tc = tabc[2];
+	float32_t ta = tabc[0];
+	float32_t tb = tabc[1];
+	float32_t tc = tabc[2];
 
-	double d1 = 0, d2 = 0;
+	float32_t d1 = 0, d2 = 0;
 
 	switch (svm->sector)
 	{
@@ -193,10 +193,10 @@ static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 		break;
 	}
 
-	double V0min = -1.0 / 2 + d1 / 3.0 + 2.0 * d2 / 3.0;
-	double V0max = 1.0 / 2 - 2.0 * d1 / 3.0 - d2 / 3.0;
+	float32_t V0min = -1.0f / 2 + d1 / 3.0f + 2.0f * d2 / 3;
+	float32_t V0max = 1.0f / 2 - 2.0f * d1 / 3 - d2 / 3.0f;
 
-	double v_cm = (d2 - d1) / 6; //SVPWM by default
+	float32_t v_cm = (d2 - d1) / 6; //SVPWM by default
 	if (v_cm > V0max)
 	{
 		v_cm = V0max;
@@ -208,7 +208,7 @@ static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 
     if (mode == DMPWM3)
 	{
-        if (((int)((svm->sector + 1) / 2)) % 2 == 0)	// Sectors 0, 3, 4, 7, 8, 11
+        if (((int16_t)((svm->sector + 1) / 2)) % 2 == 0)	// Sectors 0, 3, 4, 7, 8, 11
 		{
 			v_cm = V0min;
 		}
@@ -218,36 +218,36 @@ static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 		}
 	}
 
-	double ma, mb, mc;
+	float32_t ma, mb, mc;
 	switch (svm->sector)
 	{
 	case 0: case 1: // V0(000) <=> V1(100) <=> V2(110) <=> V7(111)
-		mc = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
+		mc = 1.0f / 2 + v_cm - d1 / 3.0f - 2.0f * d2 / 3;
 		mb = mc + d2;
 		ma = mb + d1;
 		break;
 	case 2: case 3: // V0(000) <=> V3(010) <=> V2(110) <=> V7(111)
-		mc = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
+		mc = 1.0f / 2 + v_cm - d1 / 3.0f - 2.0f * d2 / 3;
 		ma = mc + d2;
 		mb = ma + d1;
 		break;
 	case 4: case 5: // V0(000) <=> V3(010) <=> V4(011) <=> V7(111)
-		ma = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
+		ma = 1.0f / 2 + v_cm - d1 / 3.0f - 2.0f * d2 / 3;
 		mc = ma + d2;
 		mb = mc + d1;
 		break;
 	case 6: case 7: // V0(000) <=> V5(001) <=> V4(011) <=> V7(111)
-		ma = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
+		ma = 1.0f / 2 + v_cm - d1 / 3.0f - 2.0f * d2 / 3;
 		mb = ma + d2;
 		mc = mb + d1;
 		break;
 	case 8: case 9: // V0(000) <=> V5(001) <=> V6(101) <=> V7(111)
-		mb = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
+		mb = 1.0f / 2 + v_cm - d1 / 3.0f - 2.0f * d2 / 3;
 		ma = mb + d2;
 		mc = ma + d1;
 		break;
 	case 10: case 11: // V0(000) <=> V1(100) <=> V6(101) <=> V7(111)
-		mb = 1.0 / 2 + v_cm - d1 / 3.0 - 2.0 * d2 / 3;
+		mb = 1.0f / 2 + v_cm - d1 / 3.0f - 2.0f * d2 / 3;
 		mc = mb + d2;
 		ma = mc + d1;
 		break;
@@ -300,12 +300,12 @@ static void calc_svm_duty(SVM_t* svm, double tabc[3], SVM_mode_t mode)
 * @param[out]	svm->sector: sector
 * @param[out]	svm->m: array of duty cycle for phase A, B, C
 */
-void modulator(SVM_t * svm, const double Ualpha, const double Ubeta, SVM_mode_t mode)
+void modulator(SVM_t * svm, const float32_t Ualpha, const float32_t Ubeta, SVM_mode_t mode)
 {
 	svm->UAB[0] = Ualpha;
 	svm->UAB[1] = Ubeta;
 
-	double tabc[3] = {0}; // Initialize tabc array to zero
+	float32_t tabc[3] = {0}; // Initialize tabc array to zero
 
 	calc_tabc(tabc, svm->UAB);
 	

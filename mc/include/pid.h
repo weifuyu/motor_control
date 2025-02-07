@@ -19,6 +19,7 @@ extern "C" {
 #endif
 
 #include "ctrl_common.h"
+#include "commontypes.h"
 
 //*****************************************************************************
 //
@@ -28,23 +29,23 @@ extern "C" {
 typedef struct
 {
 	// PID datas
-	double	    err;        // error
-    double     err_k1;     // error(k-1)
-    double     ui;         // integral output
-	double     u;          // output 
-    double     uff;        // feedforward
-    double     err_aw;     // anti-windup error
+	float32_t	  err;        // error
+    float32_t     err_k1;     // error(k-1)
+    float32_t     ui;         // integral output
+	float32_t     u;          // output 
+    float32_t     uff;        // feedforward
+    float32_t     err_aw;     // anti-windup error
 	// PID params
-	double     OutHiLim;
-	double     OutLoLim;
-	double     IntRateLim;
-	double     Kp;
-	double     Ts;
-    double     Ti;
-    double     Ki;     // discrete Ki=Kp*Ts/Ti
-    double     Td;
-    double     Kd;     // discrete Kd=Kp*Td/Ts
-    double     Kp_aw;  // anti-windup gain
+	float32_t     OutHiLim;
+	float32_t     OutLoLim;
+	float32_t     IntRateLim;
+	float32_t     Kp;
+	float32_t     Ts;
+    float32_t     Ti;
+    float32_t     Ki;     // discrete Ki=Kp*Ts/Ti
+    float32_t     Td;
+    float32_t     Kd;     // discrete Kd=Kp*Td/Ts
+    float32_t     Kp_aw;  // anti-windup gain
 } PID_Obj_t;
 
 /**
@@ -59,11 +60,11 @@ typedef struct
  * @param[in]  err_aw       The anti-windup error
  */
 void PID_Data_Init(PID_Obj_t* const PID_inst,
-    double err,
-    double ui,
-    double u,
-    double uff,
-    double err_aw);
+    float32_t err,
+    float32_t ui,
+    float32_t u,
+    float32_t uff,
+    float32_t err_aw);
 
 /**
  * @brief      PID controller parammeters initialization
@@ -81,16 +82,16 @@ void PID_Data_Init(PID_Obj_t* const PID_inst,
  * @param[in]  Kp_aw        Kp_aw is the anti-windup gain
  */
 void PID_Param_Init(PID_Obj_t* const PID_inst,
-    double OutHiLim,
-    double OutLoLim,
-    double IntRateLim,
-    double Kp,
-    double Ts,
-    double Ti,
-    int     Ki_enable,
-    double Td,
-    int     Kd_enable,
-    double Kp_aw);
+    float32_t OutHiLim,
+    float32_t OutLoLim,
+    float32_t IntRateLim,
+    float32_t Kp,
+    float32_t Ts,
+    float32_t Ti,
+    int16_t   Ki_enable,
+    float32_t Td,
+    int16_t   Kd_enable,
+    float32_t Kp_aw);
 
 
 /**
@@ -102,7 +103,7 @@ void PID_Param_Init(PID_Obj_t* const PID_inst,
  * 
  * 		This is PID controller update function. It calculates the PID output based on the error input.
  */
-void PID_Update(PID_Obj_t* const PID_inst,  double ref, double fb, double uff);
+void PID_Update(PID_Obj_t* const PID_inst,  float32_t ref, float32_t fb, float32_t uff);
 
 #ifdef __cplusplus
 }

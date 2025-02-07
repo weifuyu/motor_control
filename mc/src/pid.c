@@ -12,11 +12,11 @@
 
 /** \copydoc PID_Data_Init */
 void PID_Data_Init(PID_Obj_t* const PID_inst,
-    double err,
-    double ui,
-    double u,
-    double uff,
-    double err_aw)
+    float32_t err,
+    float32_t ui,
+    float32_t u,
+    float32_t uff,
+    float32_t err_aw)
 {
     PID_inst->err = err;
     PID_inst->ui = ui;
@@ -28,16 +28,16 @@ void PID_Data_Init(PID_Obj_t* const PID_inst,
 
  /** \copydoc PID_Param_Init */
 void PID_Param_Init(PID_Obj_t* const PID_inst,
-    double     OutHiLim,
-    double     OutLoLim,
-    double     IntRateLim,
-    double     Kp,
-    double     Ts,
-    double     Ti,
-    int         Ki_enable, // Ki_enable == false to disable INTEGRAL, otherwise to use the deduced value
-    double     Td,
-    int         Kd_enable, // Kd_enable == false to disable DERIVATIVE, otherwise to use the deduced value
-    double     Kp_aw)
+    float32_t     OutHiLim,
+    float32_t     OutLoLim,
+    float32_t     IntRateLim,
+    float32_t     Kp,
+    float32_t     Ts,
+    float32_t     Ti,
+    int16_t       Ki_enable, // Ki_enable == false to disable INTEGRAL, otherwise to use the deduced value
+    float32_t     Td,
+    int16_t       Kd_enable, // Kd_enable == false to disable DERIVATIVE, otherwise to use the deduced value
+    float32_t     Kp_aw)
 {
     PID_inst->OutHiLim     = OutHiLim;
     PID_inst->OutLoLim     = OutLoLim;
@@ -66,21 +66,21 @@ void PID_Param_Init(PID_Obj_t* const PID_inst,
 
 
 /** \copydoc PID_Update */
-void PID_Update(PID_Obj_t* const PID_inst, double ref, double fb, double uff)
+void PID_Update(PID_Obj_t* const PID_inst, float32_t ref, float32_t fb, float32_t uff)
 {
-    double err = ref - fb;
-    double err_k1 = PID_inst->err;
-    double err_aw = PID_inst->err_aw;
-    double ui = PID_inst->ui;
-    double u = PID_inst->u;
+    float32_t err = ref - fb;
+    float32_t err_k1 = PID_inst->err;
+    float32_t err_aw = PID_inst->err_aw;
+    float32_t ui = PID_inst->ui;
+    float32_t u = PID_inst->u;
 
     // compute the incremental proportional output
     // 
-    double up = PID_inst->Kp * err;
+    float32_t up = PID_inst->Kp * err;
 
     // compute the incremental integral output with anti-windup calculation applied
     // 
-    double delta_ui = (PID_inst->Ki * (err+err_k1)/2) + (PID_inst->Kp_aw * err_aw);
+    float32_t delta_ui = (PID_inst->Ki * (err+err_k1)/2) + (PID_inst->Kp_aw * err_aw);
 
     // integral change rate limitation
     // 
@@ -94,7 +94,7 @@ void PID_Update(PID_Obj_t* const PID_inst, double ref, double fb, double uff)
     
     // comput the incremental derivative output
     // 
-    double ud = PID_inst->Kd*(err - err_k1);
+    float32_t ud = PID_inst->Kd*(err - err_k1);
 
     // compute the control output
     // 

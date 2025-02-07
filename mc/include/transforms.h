@@ -16,25 +16,27 @@
 extern "C" {
 #endif
 
+#include "commontypes.h"
+
 typedef struct
 {
-    double     a;
-    double     b;
-    double     c;
+    float32_t     a;
+    float32_t     b;
+    float32_t     c;
 } ABC_t;
 
 typedef struct
 {
-    double     alpha;
-    double     beta;
-    double     zero_AB;
+    float32_t     alpha;
+    float32_t     beta;
+    float32_t     zero_AB;
 } AB0_t;
 
 typedef struct
 {
-    double     d;
-    double     q;
-    double     zero_dq;
+    float32_t     d;
+    float32_t     q;
+    float32_t     zero_dq;
 } DQ0_t;
 
 typedef struct
@@ -51,7 +53,7 @@ typedef struct
  * @param      T_inst  The instance of the transformation object
  * @param      numSensors  The number of sensors, 2(phase a,c) or 3(phase a,b,c)
  */
-void abc2AB0(Transform_Obj_t *T_inst, int numSensors);
+void abc2AB0(Transform_Obj_t *T_inst, int16_t numSensors);
 
 /**
  * @brief      Inverse Clarke transformation - amplitude invariant
@@ -67,7 +69,7 @@ void AB02abc(Transform_Obj_t *T_inst);
  * @param      T_inst  The instance of the transformation object
  * @param      theta_e  The electrical angle
  */
-void AB02dq0(Transform_Obj_t *T_inst, double theta_e);
+void AB02dq0(Transform_Obj_t *T_inst, float32_t theta_e);
 
 
 /**
@@ -76,7 +78,7 @@ void AB02dq0(Transform_Obj_t *T_inst, double theta_e);
  * @param      T_inst  The instance of the transformation object
  * @param      theta_e  The electrical angle
  */
-void dq02AB0(Transform_Obj_t *T_inst, double theta_e);
+void dq02AB0(Transform_Obj_t *T_inst, float32_t theta_e);
 
 
 

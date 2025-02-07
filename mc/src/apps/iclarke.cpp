@@ -53,12 +53,12 @@ struct sICLARKE
 
 extern "C" __declspec(dllexport) void iclarke(struct sICLARKE **opaque, double t, union uData *data)
 {
-   double  A   = data[0].d; // input
-   double  B   = data[1].d; // input
+   float   A   = data[0].f; // input
+   float   B   = data[1].f; // input
    bool    clk = data[2].b; // input
-   double &u   = data[3].d; // output
-   double &v   = data[4].d; // output
-   double &W   = data[5].d; // output
+   float  &u   = data[3].f; // output
+   float  &v   = data[4].f; // output
+   float  &W   = data[5].f; // output
 
    if(!*opaque)
    {
